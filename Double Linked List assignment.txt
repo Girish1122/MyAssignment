@@ -1,0 +1,343 @@
+using System;
+namespace Doubly_Linked_List
+{
+    class Node
+    {
+        public int data;
+        public Node back;
+        public Node next;
+        public Node(int data)
+        {
+            this.data = data;
+
+        }
+    }
+    public class DoubleList
+    {
+        
+        public int count=0;
+        Node head, tail;
+        public DoubleList()
+        {
+            head=null;
+            tail=null;
+        }
+        public void addNode(int data)
+        {
+
+            Node newNode=new Node(data);
+            if(head==null)
+            {
+                head=tail=newNode;
+                head.back=null;
+                tail.next=null;
+             
+            }
+            else
+            {
+                tail.next=newNode;
+                newNode.back=tail;
+                tail=newNode;
+                tail.next=null;
+                
+            }
+            count++;
+        }
+        public void addAtStart(int data)
+        {
+            Node newNode=new Node(data);
+            if(head==null)
+            {
+                head = tail=newNode;
+                head.back=null;
+                tail.next=null;
+                
+            }
+            else
+            {
+                head.back=newNode;
+                newNode.next=head;
+                head=newNode;
+                
+            }
+            count++;
+        }
+        public void addAtEnd(int data)
+        {
+            Node newNode=new Node(data);
+            if(head==null)
+            {
+                head=tail=newNode;
+                head.back=null;
+                tail.next=null;
+               
+            }
+            else
+            {
+                tail.next=newNode;
+                newNode.back=tail;
+                tail=newNode;
+                tail.next=null;
+                
+            }
+            count++;
+        }
+        public void insertpos(int data, int pos)
+        {
+            if (pos == 1)
+                addAtStart(data);
+            else if (pos == count + 1)
+                addAtEnd(data);
+            else
+            {
+                Node newNode = new Node(data);
+                Node pn, cn;
+                pn = cn = head;
+                for (int i = 1; i < pos; i++)
+                {
+
+                    pn = cn;
+                    cn = cn.next;
+                }
+                pn.next = newNode;
+                newNode.back = pn;
+                newNode.next = cn;
+                cn.back = newNode;
+                count++;
+            }
+               
+            }
+            public void deleteFromStart()
+            {
+            if(head==null)
+            {
+                Console.WriteLine("Deletion can't performed as list is empty");
+            }
+            else
+            {
+                if(head!=tail)
+                {
+                    head=head.next;
+                    head.back=null;
+                   
+                }
+                else
+                {
+                    head=tail=null;
+                    
+                }
+            }
+            count--;
+        }
+        public void deleteFromEnd()
+        {
+        if(head==null)
+            {
+                Console.WriteLine("Deletion can't performed as list is empty");
+            }
+            else
+            {
+                if(head!=tail)
+                {
+                    tail=tail.back;
+                    tail.next=null;
+                   
+                }
+                else
+                {
+                    head=tail=null;
+                    
+                }
+            }
+            count--;
+        }
+        public void deletepos(int pos)
+        {
+            if(head==null)
+                Console.WriteLine("Deletion can't performed as list is empty");
+           else if (pos == 1)
+                deleteFromStart();
+            else if (pos == count + 1)
+                deleteFromEnd();
+            else
+            {
+                Node pn, cn;
+                pn = cn = head;
+                for (int i = 1; i < pos; i++)
+                {
+                    pn = cn;
+                    cn = cn.next;
+                }
+                pn.next = cn.next;
+                Console.WriteLine("Deleting the node with value = " + cn.data);
+                cn = null;
+            }
+            count--; 
+            }
+            public void display()
+            {
+            Console.WriteLine("No of nodes are :"+count);
+            Node current=head;
+            if(head==null)
+            {
+                Console.WriteLine("List is empty");
+                return;
+            }
+            Console.WriteLine("Nodes of doubly linked list: ");
+            while(current!=null)
+            {
+                Console.Write(current.data +" ");
+                current=current.next;
+            }
+            Console.WriteLine();
+            Console.WriteLine("___________________________________________________________");
+        }
+        public void display1()
+        {
+            Console.WriteLine("No of nodes are :" + count);
+            Node current=tail;
+            if(head==null)
+            {
+                Console.WriteLine("List is empty");
+                return;
+            }
+            Console.WriteLine("Nodes of doubly linked list: ");
+            while(current!=null)
+            {
+                Console.Write(current.data + " ");
+                current=current.back;
+            }
+            Console.WriteLine();
+            Console.WriteLine("___________________________________________________________");
+        }
+        public void find(int data)
+        {
+            int i=1;
+            int flag=0;
+            Node current=head;
+            if(head==null)
+            {
+                Console.WriteLine("List is empty");
+                return;
+            }
+            while(current!=null)
+            {
+                if(current.data==data)
+                {
+                    flag=1;
+                    break;
+                }
+                current=current.next;
+                i++;
+            }
+            if(flag==1)
+                Console.WriteLine("Element found at the position : " + i);
+            else
+                Console.WriteLine("Oops Element not found!"); 
+        }
+        public int find(int data,int occ)
+        {
+            int pos=0;
+            int count1 = 0;
+            Node current = head;
+            if (head == null)
+                Console.WriteLine("List is empty");
+            while (current != null)
+            {
+                pos = pos + 1;
+                if (current.data == data)
+                { 
+                    count1++;
+                    if (count1 == occ)
+                        return pos;
+                }
+                current = current.next;
+            }
+            if (count1 == 0)
+                return -1;
+            else
+               return -2;
+            
+        }
+            static void Main(string[] args)
+        {
+            DoubleList ob=new DoubleList();
+            int ch,ch1=0, d,pos=0,occ;
+            do
+            {
+                Console.WriteLine("Press: \n1.INSERT AT START \n2.INSERT FROM END \n3.DELETE AT BEGININING \n4.DELETE FROM END \n5.Delete at given pos   \n6.DISPLAY from start \n7.Display from end \n8.Insert at given position \n9.Search element \n10.Search element at given occurrence \n11.Exit ");
+                Console.WriteLine("___________________________________________________________");
+                Console.WriteLine("Enter your choice: ");
+                ch = int.Parse(Console.ReadLine());
+
+                switch (ch)
+                {
+                    case 1:
+                        Console.WriteLine("enter the element to add");
+                        d = int.Parse(Console.ReadLine());
+                        ob.addAtStart(d);
+                        break;
+                    case 2:
+                        Console.WriteLine("enter the element to add");
+                        d = int.Parse(Console.ReadLine());
+                        ob.addAtEnd(d);
+                        break;
+                    case 3:
+                        ob.deleteFromStart();
+                        break;
+                    case 4:
+                        ob.deleteFromEnd();
+                        break;
+                    case 5:
+                        do
+                        {
+                            Console.WriteLine("Enter position");
+                            pos = int.Parse(Console.ReadLine());
+                        } while (pos < 1 || pos > ob.count + 1);
+                        ob.deletepos(pos);
+                        break;
+                    case 6:
+                        ob.display();
+                        break;
+                    case 7:
+                        ob.display1();
+                        break;
+                    case 8:
+                        do
+                        {
+                            Console.WriteLine("Enter position");
+                            pos = int.Parse(Console.ReadLine());
+                        } while (pos < 1 || pos > ob.count + 1);
+                        Console.WriteLine("Enter the element to add");
+                        d = int.Parse(Console.ReadLine());
+                        ob.insertpos(d, pos);
+                        break;
+                    case 9:
+                        Console.WriteLine("Enter the element to search in the list : ");
+                        d = int.Parse(Console.ReadLine());
+                        ob.find(d);
+                        break;
+                    case 10:
+                        Console.WriteLine("Enter the element to search in the list : ");
+                        d = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Enter the occurence of element : ");
+                        occ = int.Parse(Console.ReadLine());
+                        pos=ob.find(d,occ);
+                        if(pos==-1)
+                            Console.WriteLine("Element not found");
+                        else if(pos==-2)
+                           Console.WriteLine("Element found but not occurence");
+                        else
+                            Console.WriteLine("Element found at :"+pos);
+                         break;
+                    case 11:
+                         break;
+                    default:
+                        Console.WriteLine("Invalid choice");
+                        break;
+                }
+              
+            } while (ch1!= 11);
+        }
+    }
+}
