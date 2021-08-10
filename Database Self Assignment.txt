@@ -1,0 +1,124 @@
+************************************* SELF-ASSIGNMENT ON DATABASE PROJECT **************************************
+
+
+1. Creating table as Author having primary key as 'Name' and unique constraint as 'Address'
+
+create table Author
+(
+Name varchar(255) not null,
+Address varchar(255) not null,
+URL varchar(255) not null,
+primary key (Name),  unique (Address)
+);
+
+
+------------------------------------------------------------------------------------------------------------------
+2. Creating table as Publisher having primary key as 'Name'
+
+create table Publisher
+(
+Name varchar(255) not null,
+Address varchar(255) not null,
+Phone varchar(255) not null,
+URL int not null,
+primary key(Name)
+);
+
+
+------------------------------------------------------------------------------------------------------------------
+3. Creating table as Customer having primary key as 'Email'
+
+create table Customer
+(
+Email varchar(255),
+Name varchar(255) not null,
+Phone varchar(255) not null,
+Address varchar(255) not null,
+primary key(Email)
+);
+
+
+------------------------------------------------------------------------------------------------------------------
+4. Creating table as ShoppingBasket having primary key as 'ID' and foreign key as 'CustomerEmail'
+
+create table ShoppingBasket
+(
+ID int,
+CustomerEmail varchar(255),
+primary key(ID)
+);
+
+alter table ShoppingBasket
+add foreign key (CustomerEmail) references Customer(Email);
+
+
+----------------------------------------------------------------------------------------------------------------------------
+5. Creating table as Book having primary key as 'ISBN' and foreign keys as 'PublisherName','AuthorName' and 'AuthorAddress'
+
+create table Book
+(
+ISBN varchar(255),
+PublisherName varchar(255),
+AuthorName varchar(255),
+AuthorAddress varchar(255),
+Year1 int not null,
+Title varchar(255) not null,
+Price numeric(19,0) not null,
+primary key (ISBN)
+);
+
+alter table Book
+add foreign key (PublisherName) references Publisher(Name);
+
+alter table Book
+add foreign key (AuthorName) references Author(Name)
+
+alter table Book
+add foreign key (AuthorAddress) references Author(Address)
+
+
+----------------------------------------------------------------------------------------------------
+6. Creating table as ShoppingBasket_Book having foreign keys as 'ShoppingBasketID' and 'BookISBN'
+
+create table ShoppingBasket_Book
+(
+ShoppingBasketID int,
+BookISBN varchar(255),
+Count1 int not null
+);
+
+alter table ShoppingBasket_Book
+add foreign key (ShoppingBasketID) references ShoppingBasket(ID);
+
+alter table ShoppingBasket_Book
+add foreign key (BookISBN) references Book(ISBN);
+
+
+-----------------------------------------------------------------------------------------------------
+7. Creating table as WareHouse having primary key as 'Code'.
+
+create table Warehouse
+(
+Code int,
+Phone varchar(255) not null,
+Address varchar(255) not null
+primary key (Code)
+);
+
+
+-----------------------------------------------------------------------------------------------------
+8. Creating table as WareHouse_Book having foreign keys as 'BookISBN' and 'WarehouseCode'
+
+create table WareHouse_Book
+(
+WarehouseCode int,
+BookISBN varchar(255),
+Count2 int not null
+);
+
+alter table WareHouse_Book
+add foreign key (BookISBN) references Book(ISBN)
+
+alter table WareHouse_Book
+add foreign key (WarehouseCode) references Warehouse(Code)
+
